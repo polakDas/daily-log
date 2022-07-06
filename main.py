@@ -1,11 +1,30 @@
 from views import create_log, get_logs
 
 
-if __name__ == '__main__':
-    uinput = 's'
-    while uinput != 'q':
-        uinput = input("Enter message: ")
-        create_log(uinput)
+def show_options():
+    print('What do you want to do?')
+    print('1. Create a log\t\t 2. Show all logs')
+    print('3. Exit')
+    choice = input('> ')
+    main(choice)
 
-    for log in get_logs():
-        print(log.id, log.message)
+
+def main(choice):
+    if choice == '1':
+        message = input('Enter a message: ')
+        create_log(message)
+    elif choice == '2':
+        for log in get_logs():
+            print(f"{log.message:<20} - {log.timestamp.strftime('%d %B, %Y')}")
+    elif choice == '3':
+        print('Bye!')
+        return
+    else:
+        print('Invalid choice')
+
+    print('\n\n')
+    show_options()
+
+
+if __name__ == '__main__':
+    show_options()
