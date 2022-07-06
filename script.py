@@ -1,4 +1,4 @@
-from peewee import *
+import peewee
 from datetime import datetime
 
 db = SqliteDatabase('log.db')
