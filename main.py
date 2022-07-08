@@ -13,16 +13,17 @@ def main(choice):
     if choice == '1':
         message = input('Enter a message: ')
         create_log(message)
+        print("Log created!\n")
     elif choice == '2':
         for log in get_logs():
-            print(f"{log.message:<20} - {log.timestamp.strftime('%d %B, %Y')}")
+            print(f"{log.id:<2} | {log.message:<20} - {log.timestamp.strftime('%d %B, %Y')}")
     elif choice == '3':
         print('Bye!')
         return
     else:
         print('Invalid choice')
 
-    print('\n\n')
+    print('*' * 40 + '\n')
     show_options()
 
 
