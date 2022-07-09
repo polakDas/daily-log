@@ -1,29 +1,39 @@
-from views import create_log, get_logs
+from views import create_log, get_logs, create_positive_log, create_negative_log, get_positive_log, get_negative_log
 
 
 def show_options():
     print('What do you want to do?')
-    print('1. Create a log\t\t 2. Show all logs')
-    print('3. Exit')
+    print('1. Create Positive log\t\t 2. Create Negative log')
+    print('3. Show Positive logs\t\t 4. Show Negative logs')
+    print('5. Exit')
     choice = input('> ')
     main(choice)
 
 
 def main(choice):
     if choice == '1':
-        message = input('Enter a message: ')
-        create_log(message)
-        print("Log created!\n")
+        title = input('Enter Title: ')
+        description = input('Enter description: ')
+        create_positive_log(title, description)
+        print("Log created! :)\n")
     elif choice == '2':
-        for log in get_logs():
-            print(f"{log.id:<2} | {log.message:<20} - {log.timestamp.strftime('%d %B, %Y')}")
+        title = input('Enter title: ')
+        description = input('Enter description: ')
+        create_negative_log(title, description)
+        print("Log created. :(\n")
     elif choice == '3':
+        for log in get_positive_log():
+            print(f"{log.id:<2} | {log.title:<20} - {log.timestamp.strftime('%d %B, %Y')}")
+    elif choice == '4':
+        for log in get_negative_log():
+            print(f"{log.id:<2} | {log.title:<20} - {log.timestamp.strftime('%d %B, %Y')}")
+    elif choice == '5':
         print('Bye!')
         return
     else:
         print('Invalid choice')
 
-    print('*' * 40 + '\n')
+    print('*' * 41 + '\n')
     show_options()
 
 
