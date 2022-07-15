@@ -20,25 +20,18 @@ def get_logs():
     return Log.select().order_by(Log.timestamp.asc())
 
 
-def get_positive_log(fid = -1, lid = 0):    # get first ID and last ID to show logs
+def get_positive_log(lastID = PositiveLog.select()[-1].id):    # get the last PositiveLog from database
     pLog = PositiveLog.select()
 
-    lastID = PositiveLog.select()[-1].id
-
-    if lastID < 5:
-        return pLog
-    else:
+    if lastID > 5:
         firstID = lastID - 5
-        context = {
-            'last_id': lastID,
-            'positive_log': pLog[firstID:lastID]
-        }
-        return context
-    
-    # print(dir(PositiveLog.select().order_by()))
-    # print(PositiveLog.select().order_by(PositiveLog.id.desc()))
-    
-    # return pLog[lid:]
+    else:
+        firstID = 0
+
+    if lastID == 0:
+        return pLog, lastID
+    else:
+        return pLog[firstID:lastID], lastID
 
 
 def get_negative_log():
