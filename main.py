@@ -11,6 +11,7 @@ def show_options():
 
 
 def main(choice):
+    print('\n' + '*' * 41)
     if choice == '1':
         title = input('Enter Title: ')
         description = input('Enter description: ')
@@ -22,8 +23,12 @@ def main(choice):
         create_negative_log(title, description)
         print("Log created. :(\n")
     elif choice == '3':
-        for log in get_positive_log():
-            print(f"{log.id:<2} | {log.title:<20} - {log.timestamp.strftime('%d %B, %Y')}")
+        for log in get_positive_log().items():
+            # if len(log.title) > 20:
+            #     print(f"{log.id:<2} | {log.title[:18]}.. - {log.timestamp.strftime('%d %B, %Y')}")
+            # else:
+            #     print(f"{log.id:<2} | {log.title:<20} - {log.timestamp.strftime('%d %B, %Y')}")
+            print(log[1])
     elif choice == '4':
         for log in get_negative_log():
             print(f"{log.id:<2} | {log.title:<20} - {log.timestamp.strftime('%d %B, %Y')}")
