@@ -1,5 +1,6 @@
 import header
 from models import Log, PositiveLog, NegativeLog
+from pagination import paginate
 
 
 header.show_title('Daily Log')
@@ -20,13 +21,10 @@ def get_logs():
     return Log.select().order_by(Log.timestamp.asc())
 
 
-def get_positive_log(lastID = PositiveLog.select()[-1].id):    # get the last PositiveLog from database
+def get_positive_log(lastID = PositiveLog.select()[-1].id):    # default is last PositiveLog from database
     pLog = PositiveLog.select()
 
-    if lastID > 5:
-        firstID = lastID - 5
-    else:
-        firstID = 0
+    firstID = paginate(lastID)
 
     if lastID == 0:
         return pLog, lastID
@@ -34,5 +32,12 @@ def get_positive_log(lastID = PositiveLog.select()[-1].id):    # get the last Po
         return pLog[firstID:lastID], lastID
 
 
-def get_negative_log():
-    return NegativeLog.select().order_by(NegativeLog.timestamp.desc())
+def get_negative_log(lastID = NegativeLog.select()[-1].id):     # default is last NegativeLog from database
+    nLog =  NegativeLog.select()
+
+    firstID = paginate(lastID)
+    
+    if lastID == 0:
+        return nLog, lastID
+    else:
+        return nLog[firstID:lastID], lastID
