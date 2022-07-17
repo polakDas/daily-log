@@ -23,6 +23,35 @@ def show_logs(logs):
             print(f"{log.id:<2} | {log.title:<20} - {log.timestamp.strftime('%d %B, %Y')}")
 
 
+def show_submenu(lastID):
+    '''
+    This function will show the sub-menu
+    '''
+    sub_menu = '0'
+    while sub_menu != '2':
+        print('*' * 41)
+
+        if lastID > 5:
+            print('1. Show more\t\t 2. Main menu')
+        else:
+            print('1. Show all\t\t 2. Main menu')
+
+        sub_menu = input('> ')
+        print('*' * 41)
+
+        if sub_menu == '1':
+            if lastID > 5:
+                lastID -= 5
+            else:
+                lastID = 0
+            logs, lastID = get_positive_log(lastID)
+            show_logs(logs)
+        elif sub_menu == '2':
+            print("Going to main menu...")
+        else:
+            print('Invalid option. Please try again.')
+
+
 def main(choice):
     '''
     This is the main function that runs first and decide what to do
@@ -47,27 +76,29 @@ def main(choice):
 
         show_logs(logs)
 
-        subChoice = '0'
-        while subChoice != '2':
-            print('*' * 41)
+        show_submenu(lastID)
 
-            if lastID > 5:
-                print('1. Show more\t\t 2. Main menu')
-            else:
-                print('1. Show all\t\t 2. Main menu')
+        # subChoice = '0'
+        # while subChoice != '2':
+        #     print('*' * 41)
 
-            subChoice = input('> ')
-            print('*' * 41)
+        #     if lastID > 5:
+        #         print('1. Show more\t\t 2. Main menu')
+        #     else:
+        #         print('1. Show all\t\t 2. Main menu')
 
-            if subChoice == '1':
-                if lastID > 5:
-                    lastID -= 5
-                else:
-                    lastID = 0
-                logs, lastID = get_positive_log(lastID)
-                show_logs(logs)
-            else:
-                print('Invalid option. Please try again.')
+        #     subChoice = input('> ')
+        #     print('*' * 41)
+
+        #     if subChoice == '1':
+        #         if lastID > 5:
+        #             lastID -= 5
+        #         else:
+        #             lastID = 0
+        #         logs, lastID = get_positive_log(lastID)
+        #         show_logs(logs)
+        #     else:
+        #         print('Invalid option. Please try again.')
                 
     elif choice == '4':     # Show Negative logs
         for log in get_negative_log():
