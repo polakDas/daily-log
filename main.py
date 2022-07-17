@@ -1,3 +1,4 @@
+import time
 from views import create_log, get_logs, create_positive_log, create_negative_log, get_positive_log, get_negative_log
 
 
@@ -23,7 +24,7 @@ def show_logs(logs):
             print(f"{log.id:<2} | {log.title:<20} - {log.timestamp.strftime('%d %B, %Y')}")
 
 
-def show_submenu(lastID):
+def show_submenu(lastID, logType):
     '''
     This function will show the sub-menu
     '''
@@ -44,10 +45,16 @@ def show_submenu(lastID):
                 lastID -= 5
             else:
                 lastID = 0
-            logs, lastID = get_positive_log(lastID)
+            
+            if logType == 'positive':
+                logs, lastID = get_positive_log(lastID)
+            if logType == 'negative':
+                logs, lastID = get_negative_log(lastID)
+
             show_logs(logs)
         elif sub_menu == '2':
             print("Going to main menu...")
+            time.sleep(0.5)       # wait 1/2 second
         else:
             print('Invalid option. Please try again.')
 
@@ -76,36 +83,18 @@ def main(choice):
 
         show_logs(logs)
 
-        show_submenu(lastID)
-
-        # subChoice = '0'
-        # while subChoice != '2':
-        #     print('*' * 41)
-
-        #     if lastID > 5:
-        #         print('1. Show more\t\t 2. Main menu')
-        #     else:
-        #         print('1. Show all\t\t 2. Main menu')
-
-        #     subChoice = input('> ')
-        #     print('*' * 41)
-
-        #     if subChoice == '1':
-        #         if lastID > 5:
-        #             lastID -= 5
-        #         else:
-        #             lastID = 0
-        #         logs, lastID = get_positive_log(lastID)
-        #         show_logs(logs)
-        #     else:
-        #         print('Invalid option. Please try again.')
-                
+        show_submenu(lastID, 'positive')
+              
     elif choice == '4':     # Show Negative logs
-        for log in get_negative_log():
-            print(f"{log.id:<2} | {log.title:<20} - {log.timestamp.strftime('%d %B, %Y')}")
+        logs, lastID = get_negative_log()   # return a list and an int
+
+        show_logs(logs)
+
+        show_submenu(lastID, 'negative')
 
     elif choice == '5':     # Exit
-        print('Bye!')
+        time.sleep(1)
+        print('Bye!\n\n')
         return
 
     else:                   # If invalid input
