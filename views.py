@@ -17,10 +17,6 @@ def create_negative_log(title, description):
     NegativeLog.create(title=title, description=description)
 
 
-def get_logs():
-    return Log.select().order_by(Log.timestamp.asc())
-
-
 def get_positive_log(lastID = PositiveLog.select()[-1].id):    # default is last PositiveLog from database
     pLog = PositiveLog.select()
 
