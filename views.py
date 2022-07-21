@@ -1,12 +1,9 @@
 import header
-from models import Log, PositiveLog, NegativeLog
-from pagination import paginate
+from models import PositiveLog, NegativeLog
+from filter_log import filter_log
 
 
 header.show_title('Daily Log')
-
-def create_log(message):
-    Log.create(message=message)
 
 
 def create_positive_log(title, description):
@@ -17,23 +14,41 @@ def create_negative_log(title, description):
     NegativeLog.create(title=title, description=description)
 
 
-def get_positive_log(lastID = PositiveLog.select()[-1].id):    # default is last PositiveLog from database
+try:
+    last_positive_log = PositiveLog.select()[-1].id
+except:
+    last_positive_log = 0
+
+def get_positive_log(lastID = last_positive_log):    # default is last PositiveLog from database
     pLog = PositiveLog.select()
 
-    firstID = paginate(lastID)
+    firstID = filter_log(lastID=lastID, paginatedBy=5)
 
     if lastID == 0:
         return pLog, lastID
     else:
-        return pLog[firstID:lastID], lastID
+        try:
+            return pLog[firstID:lastID], lastID
+        except:
+            print("There are no positive log yet!!")
+            return
 
 
-def get_negative_log(lastID = NegativeLog.select()[-1].id):     # default is last NegativeLog from database
+try:
+    last_negative_log = NegativeLog.select()[-1].id
+except:
+    last_negative_log = 0
+
+def get_negative_log(lastID = last_negative_log):     # default is last NegativeLog from database
     nLog =  NegativeLog.select()
 
-    firstID = paginate(lastID)
+    firstID = filter_log(lastID=lastID, paginatedBy=5)
     
     if lastID == 0:
         return nLog, lastID
     else:
-        return nLog[firstID:lastID], lastID
+        try:
+            return nLog[firstID:lastID], lastID
+        except:
+            print("There are no log yet!!")
+            return
