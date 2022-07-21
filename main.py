@@ -1,5 +1,5 @@
 import time
-from views import create_log, get_logs, create_positive_log, create_negative_log, get_positive_log, get_negative_log
+from views import create_positive_log, create_negative_log, get_positive_log, get_negative_log
 
 
 def show_options():
@@ -17,11 +17,14 @@ def show_options():
 
 def show_logs(logs):
     # this function will show logs one by one from log database
-    for log in logs:
-        if len(log.title) > 20:
-            print(f"{log.id:<2} | {log.title[:18]}.. - {log.timestamp.strftime('%d %B, %Y')}")
-        else:
-            print(f"{log.id:<2} | {log.title:<20} - {log.timestamp.strftime('%d %B, %Y')}")
+    try:
+        for log in logs:
+            if len(log.title) > 20:
+                print(f"{log.id:<2} | {log.title[:18]}.. - {log.timestamp.strftime('%d %B, %Y')}")
+            else:
+                print(f"{log.id:<2} | {log.title:<20} - {log.timestamp.strftime('%d %B, %Y')}")
+    except:
+        pass
 
 
 def show_submenu(lastID, logType):
@@ -64,7 +67,7 @@ def main(choice):
     This is the main function that runs first and decide what to do
     This function will take a choice from the user and run the appropriate function for user
     '''
-    print('\n' + '*' * 41)
+    print('\n' + '*' * 41)  # styling
 
     if choice == '1':       # Create Positive log
         title = input('Enter Title: ')
@@ -80,16 +83,12 @@ def main(choice):
 
     elif choice == '3':     # Show positive logs
         logs, lastID = get_positive_log()   # returns two values (list and int)
-
         show_logs(logs)
-
         show_submenu(lastID, 'positive')
               
     elif choice == '4':     # Show Negative logs
         logs, lastID = get_negative_log()   # return a list and an int
-
         show_logs(logs)
-
         show_submenu(lastID, 'negative')
 
     elif choice == '5':     # Exit
@@ -100,9 +99,9 @@ def main(choice):
     else:                   # If invalid input
         print('Invalid choice')
 
-    print('*' * 41 + '\n')
+    print('*' * 41 + '\n')  # Styling
     show_options()
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # main program start
     show_options()
